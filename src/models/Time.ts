@@ -20,9 +20,10 @@ class Time {
             date.setHours(0);
             date.setMinutes(minutes);
 
-            ranges.push(moment(date).format(DEFAULT_TIME_FORMAT));
+            const time = moment(date).format(DEFAULT_TIME_FORMAT);
+            
+            ranges.push(time);
         }
-    
         return ranges;
     }
 }

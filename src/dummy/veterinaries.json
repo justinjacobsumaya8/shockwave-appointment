@@ -1,24 +1,28 @@
 [
     {
-        "veterinary_name": "Anika Perry",
+        "id": 1,
+        "name": "Anika Perry",
         "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
         "building": "Green Bow Vett",
         "contact_number": "+63 0123 123"
     },
     {
-        "veterinary_name": "Danica Jane",
+        "id": 2,
+        "name": "Danica Jane",
         "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
         "building": "Green Bow Vett",
         "contact_number": "+63 0123 123"
     },
     {
-        "veterinary_name": "John Fins",
+        "id": 3,
+        "name": "John Fins",
         "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
         "building": "Green Bow Vett",
         "contact_number": "+63 0123 123"
     },
     {
-        "veterinary_name": "John Fins",
+        "id": 4,
+        "name": "John Fins",
         "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
         "building": "Green Bow Vett",
         "contact_number": "+63 0123 123"
