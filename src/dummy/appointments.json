@@ -1,8 +1,8 @@
 [
     {
-        "title": "Meeting",
-        "start_date": "2023-09-16 9:00:00",
-        "end_date": "2023-09-16 10:00:00",
+        "title": "Meeting 1",
+        "start_date": "2023-09-16 09:00:00",
+        "end_date": "2023-09-16 10:30:00",
         "client": {
             "name": "Crissie Lee",
             "email": "chrissielee@gmail.com",
@@ -11,8 +11,19 @@
         }
     },
     {
-        "title": "Meeting",
-        "start_date": "2023-09-16 8:00:00",
+        "title": "Meeting 2",
+        "start_date": "2023-09-16 08:00:00",
+        "end_date": "2023-09-16 10:30:00",
+        "client": {
+            "name": "Crissie Lee",
+            "email": "chrissielee@gmail.com",
+            "phone": "+01 234 567 8910",
+            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California"
+        }
+    },
+    {
+        "title": "Meeting 3",
+        "start_date": "2023-09-16 08:00:00",
         "end_date": "2023-09-16 10:30:00",
         "client": {
             "name": "Crissie Lee",

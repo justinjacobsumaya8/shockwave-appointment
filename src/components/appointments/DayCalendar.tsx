@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 
-import moment from "moment";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 import Time, {
     DEFAULT_DATE_FORMAT,
     DEFAULT_TIME_FORMAT,
@@ -10,6 +11,8 @@ import appointmentsJson from "@/src/dummy/appointments.json";
 
 import LeftArrow from "@/src/components/icons/LeftArrow";
 import RightArrow from "@/src/components/icons/RightArrow";
+
+const moment = extendMoment(Moment);
 
 export default function DayCalendar() {
     const timeRanges = Time.getTimeRanges(30);
@@ -36,6 +39,95 @@ export default function DayCalendar() {
     useEffect(() => {
         const scheduleHtmlCards: React.ReactNode[] = [];
         const currentDate = moment(date).format(DEFAULT_DATE_FORMAT);
+
+        const convertToHtml = ({
+            index,
+            appointment,
+            startElement,
+            endElement,
+        }: {
+            index: number;
+            appointment: AppointmentInterface;
+            startElement: HTMLTableCellElement;
+            endElement: HTMLTableCellElement;
+        }) => {
+            const startTime = startElement.getAttribute("data-time") as string;
+            const endTime = endElement.getAttribute("data-time") as string;
+
+            let offsetBottom = endElement.offsetTop;
+
+            if (endTime.includes(":00")) {
+                offsetBottom =
+                    endElement.offsetTop + endElement.offsetHeight / 2;
+            }
+
+            const top = startElement.offsetTop + "px";
+            const bottom = -offsetBottom + "px";
+
+            const timeInterval = moment.range(
+                moment(startTime, DEFAULT_TIME_FORMAT),
+                moment(endTime, DEFAULT_TIME_FORMAT)
+            );
+
+            let overlapIndexes: number[] = [];
+
+            appointments.map((appointment, appointmentIndex) => {
+                const start = moment(
+                    appointment.startDate,
+                    "YYYY-MM-DD hh:mm:ss"
+                );
+                const end = moment(appointment.endDate, "YYYY-MM-DD hh:mm:ss");
+
+                const interval = moment.range(moment(start), moment(end));
+
+                if (timeInterval.overlaps(interval)) {
+                    overlapIndexes.push(appointmentIndex);
+                }
+            });
+
+            let left = "";
+            if (overlapIndexes.length > 1 && overlapIndexes[index]) {
+                let count = 0;
+                let baseLeft = 15;
+                overlapIndexes.map((overlapIndex) => {
+                    if (overlapIndex <= index) {
+                        count++;
+                    }
+                });
+                left = baseLeft * count + "%";
+            }
+
+            return (
+                <div
+                    className="absolute right-0 bottom-0"
+                    style={{
+                        inset: `${top} 0 ${bottom} ${left}`,
+                    }}
+                    key={index}
+                >
+                    <a
+                        href="#"
+                        className="absolute inset-0 block w-full overflow-x-auto p-3 bg-red-200 border border-red-500 rounded-lg shadow hover:bg-red-100"
+                    >
+                        <div className="mb-1">
+                            <h6 className="text-md font-bold tracking-tight text-gray-900">
+                                {appointment.title}
+                            </h6>
+                            <p className="font-normal text-sm text-gray-700">
+                                {`${moment(appointment.startDate).format(
+                                    DEFAULT_TIME_FORMAT
+                                )} - ${moment(appointment.endDate).format(
+                                    DEFAULT_TIME_FORMAT
+                                )}`}
+                            </p>
+                        </div>
+                        <p className="font-normal text-sm text-gray-700">
+                            {appointment.client.name}
+                        </p>
+                    </a>
+                </div>
+            );
+        };
 
         if (hoursValueRef.current.length) {
             appointments.map((appointment, index) => {
@@ -75,88 +167,6 @@ export default function DayCalendar() {
 
         setAppointmentCards(scheduleHtmlCards);
     }, [appointments, date]);
-
-    const convertToHtml = ({
-        index,
-        appointment,
-        startElement,
-        endElement,
-    }: {
-        index: number;
-        appointment: AppointmentInterface;
-        startElement: HTMLTableCellElement;
-        endElement: HTMLTableCellElement;
-    }) => {
-        const firstElementHeight =
-            hoursValueRef.current[0].getBoundingClientRect().height;
-        const secondElementHeight =
-            hoursValueRef.current[1].getBoundingClientRect().height;
-
-        const startTime = startElement.getAttribute("data-time") as string;
-        const endTime = endElement.getAttribute("data-time") as string;
-
-        const startElementRect = startElement.getBoundingClientRect();
-        const endElementRect = endElement.getBoundingClientRect();
-
-        let startElementTop = startElementRect.top;
-        let elementHeight = secondElementHeight;
-
-        if (startTime.includes(":30")) {
-            startElementTop =
-                startElementRect.top -
-                firstElementHeight -
-                firstElementHeight / 2;
-        } else {
-            startElementTop = startElementRect.top - firstElementHeight;
-        }
-
-        if (endTime.includes(":30")) {
-            elementHeight = endElementRect.bottom - startElementRect.bottom;
-        } else {
-            elementHeight = endElementRect.bottom - startElementRect.top;
-        }
-
-        // console.log(startElementRect)
-        const top = startElementTop + "px";
-        const height = elementHeight + "px";
-
-        return (
-            <div
-                className="absolute right-0 bottom-0"
-                style={{ 
-                    top,
-                    left: 0
-                    // left: '500px'
-                }}
-                key={index}
-            >
-                <a
-                    href="#"
-                    className="block w-full overflow-x-auto p-3 bg-red-200 border border-red-500 rounded-lg shadow hover:bg-red-100"
-                    style={{
-                        minHeight: secondElementHeight,
-                        height,
-                    }}
-                >
-                    <div className="mb-1">
-                        <h6 className="text-md font-bold tracking-tight text-gray-900">
-                            {appointment.title}
-                        </h6>
-                        <p className="font-normal text-sm text-gray-700">
-                            {`${moment(appointment.startDate).format(
-                                DEFAULT_TIME_FORMAT
-                            )} - ${moment(appointment.endDate).format(
-                                DEFAULT_TIME_FORMAT
-                            )}`}
-                        </p>
-                    </div>
-                    <p className="font-normal text-sm text-gray-700">
-                        {appointment.client.name}
-                    </p>
-                </a>
-            </div>
-        );
-    };
 
     const onClickPreviousDate = () => {
         const previousDate = moment(date).subtract(1, "day").toDate();
@@ -211,10 +221,12 @@ export default function DayCalendar() {
                                 }`}
                             >
                                 <td
-                                    className="border-r-2 px-4 py-8 pb-0 text-center"
+                                    className="border-r-2 px-4 py-8 text-center"
                                     width="8%"
                                 >
-                                    {timeRange.includes(":00") ? timeRange : ""}
+                                    {timeRange.includes(":00")
+                                        ? timeRange
+                                        : timeRange}
                                 </td>
                                 <td
                                     data-time={timeRange}

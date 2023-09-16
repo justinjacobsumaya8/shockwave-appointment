@@ -1,0 +1,13 @@
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "editor.wrappingColumn": 0,
+    "editor.wordWrapColumn": 160,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.minimap.enabled": false,
+    "prettier.tabWidth": 4,
+    "prettier.semi": true
+}
