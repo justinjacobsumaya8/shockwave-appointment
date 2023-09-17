@@ -1,41 +1,32 @@
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
 import React, { useEffect, useState } from "react";
+import { alertMessageActions } from "@/src/redux/slices/alertMessage.slice";
+
+const { setAlertMessage } = alertMessageActions;
 
 const SUCCESS = "success";
 const ERROR = "error";
 
-export type AlertMessageType = {
-    message: string;
-    type: string;
-};
-
-export type SetAlertMessageType = React.Dispatch<
-    React.SetStateAction<{
-        message: string;
-        type: string;
-    }>
->;
-
-export default function AlertMessage({
-    alertMessage,
-    setAlertMessage,
-}: {
-    alertMessage: AlertMessageType;
-    setAlertMessage: SetAlertMessageType;
-}) {
+export default function AlertMessage() {
     const [showElement, setShowElement] = useState(false);
+    const dispatch = useAppDispatch();
+
+    const { message, type } = useAppSelector((state) => state.alertMessage);
 
     useEffect(() => {
-        if (alertMessage.message) {
+        if (message) {
             setShowElement(true);
             setTimeout(() => {
                 setShowElement(false);
-                setAlertMessage({
-                    message: "",
-                    type: "",
-                });
+                dispatch(
+                    setAlertMessage({
+                        message: "",
+                        type: "",
+                    })
+                );
             }, 3000);
         }
-    }, [alertMessage, setAlertMessage]);
+    }, [dispatch, message]);
 
     return (
         <>
@@ -46,7 +37,7 @@ export default function AlertMessage({
                             className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
                             role="alert"
                         >
-                            {alertMessage.type === SUCCESS && (
+                            {type === SUCCESS && (
                                 <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
                                     <svg
                                         aria-hidden="true"
@@ -64,7 +55,7 @@ export default function AlertMessage({
                                     <span className="sr-only">Check icon</span>
                                 </div>
                             )}
-                            {alertMessage.type === ERROR && (
+                            {type === ERROR && (
                                 <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
                                     <svg
                                         aria-hidden="true"
@@ -83,7 +74,7 @@ export default function AlertMessage({
                                 </div>
                             )}
                             <div className="ml-3 text-sm font-normal">
-                                {alertMessage.message}
+                                {message}
                             </div>
                         </div>
                     </div>

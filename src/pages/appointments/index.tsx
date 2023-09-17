@@ -1,11 +1,7 @@
 import dynamic from "next/dynamic";
-import { SetAlertMessageType } from "@/src/components/common/AlertMessage";
+import PageLayout from "@/src/components/layouts/PageLayout";
 
-export default function Appointments({
-    setAlertMessage,
-}: {
-    setAlertMessage: SetAlertMessageType;
-}) {
+export default function Appointments() {
     const DayCalendar = dynamic(
         () => import("../../components/appointments/DayCalendar"),
         {
@@ -14,8 +10,8 @@ export default function Appointments({
     );
 
     return (
-        <div>
-            <DayCalendar setAlertMessage={setAlertMessage} />
-        </div>
+        <PageLayout>
+            <DayCalendar />
+        </PageLayout>
     );
 }

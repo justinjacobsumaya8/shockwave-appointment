@@ -1,4 +1,4 @@
-import { AppointmentInterface } from "@/src/models/Appointment";
+import { useAppSelector } from "@/src/redux/hooks";
 
 import Image from "next/image";
 import DotsVerticalIcon from "../icons/DotsVerticalIcon";
@@ -10,13 +10,15 @@ import GenderIcon from "../icons/GenderIcon";
 import AgeIcon from "../icons/AgeIcon";
 import CalendarIcon from "../icons/CalendarIcon";
 
-export default function ShowAppointment({
-    selectedAppointment,
-}: {
-    selectedAppointment: AppointmentInterface;
-}) {
+export default function ShowClient() {
+    const { selectedClient } = useAppSelector((state) => state.appointments);
+
+    if (!selectedClient) {
+        return "";
+    }
+
     return (
-        <div>
+        <div className="overflow-y-auto max-h-[90vh]">
             <div className="flex items-center justify-between py-4 px-6 border-b">
                 <div className="flex items-center gap-4">
                     <Image
@@ -30,7 +32,7 @@ export default function ShowAppointment({
                             className="text-lg font-bold"
                             style={{ letterSpacing: " 0.48px" }}
                         >
-                            {selectedAppointment.client.name}
+                            {selectedClient.name}
                         </p>
                         <p className="text-sm text-gray-400">Client</p>
                     </div>
@@ -48,7 +50,7 @@ export default function ShowAppointment({
                 <table className="mt-2">
                     <tbody>
                         <tr>
-                            <td width="40%" className="py-2">
+                            <td width="100px" className="py-2">
                                 <div className="flex items-center gap-2">
                                     <EmailIcon className="fill-gray-400" />
                                     <span className="text-sm text-gray-400">
@@ -58,7 +60,7 @@ export default function ShowAppointment({
                             </td>
                             <td>
                                 <span className="text-sm">
-                                    {selectedAppointment.client.email}
+                                    {selectedClient.email}
                                 </span>
                             </td>
                         </tr>
@@ -73,7 +75,7 @@ export default function ShowAppointment({
                             </td>
                             <td>
                                 <span className="text-sm">
-                                    {selectedAppointment.client.phone}
+                                    {selectedClient.phone}
                                 </span>
                             </td>
                         </tr>
@@ -88,7 +90,7 @@ export default function ShowAppointment({
                             </td>
                             <td className="py-2">
                                 <span className="text-sm">
-                                    {selectedAppointment.client.address}
+                                    {selectedClient.address}
                                 </span>
                             </td>
                         </tr>
@@ -108,7 +110,7 @@ export default function ShowAppointment({
                     />
                     <div>
                         <p className="text-sm font-semibold">
-                            {selectedAppointment.veterinary.building}
+                            {selectedClient.veterinary.building}
                         </p>
                         <p className="text-sm text-gray-400">Kentucky</p>
                     </div>
@@ -116,7 +118,7 @@ export default function ShowAppointment({
                 <table className="mt-2">
                     <tbody>
                         <tr>
-                            <td width="40%" className="py-2">
+                            <td width="100px" className="py-2">
                                 <div className="flex items-center gap-2">
                                     <EmailIcon className="fill-gray-400" />
                                     <span className="text-sm text-gray-400">
@@ -141,10 +143,7 @@ export default function ShowAppointment({
                             </td>
                             <td>
                                 <span className="text-sm">
-                                    {
-                                        selectedAppointment.veterinary
-                                            .contactNumber
-                                    }
+                                    {selectedClient.veterinary.contactNumber}
                                 </span>
                             </td>
                         </tr>
@@ -159,7 +158,7 @@ export default function ShowAppointment({
                             </td>
                             <td className="py-2">
                                 <span className="text-sm">
-                                    {selectedAppointment.veterinary.address}
+                                    {selectedClient.veterinary.address}
                                 </span>
                             </td>
                         </tr>
@@ -185,7 +184,7 @@ export default function ShowAppointment({
                 <table className="mt-2">
                     <tbody>
                         <tr>
-                            <td width="50%" className="py-2">
+                            <td width="100px" className="py-2">
                                 <div className="flex items-center gap-2">
                                     <BreedIcon className="stroke-gray-400" />
                                     <span className="text-sm text-gray-400">
@@ -240,6 +239,24 @@ export default function ShowAppointment({
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div className="p-4 border-t border-gray-200">
+                <div>
+                    <button
+                        type="button"
+                        className="bg-primary hover:bg-orange-600 text-white w-full rounded-lg p-2 mb-3"
+                    >
+                        Reschedule Appointment
+                    </button>
+                </div>
+                <div>
+                    <button
+                        type="button"
+                        className="bg-white text-gray-500 w-full rounded-lg p-2 border border-gray-200 hover:bg-gray-100 hover:border-gray-100"
+                    >
+                        Cancel Appointment
+                    </button>
+                </div>
             </div>
         </div>
     );

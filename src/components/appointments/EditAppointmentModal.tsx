@@ -7,45 +7,38 @@ import Time, {
 } from "@/src/models/Time";
 import { alertMessageActions } from "@/src/redux/slices/alertMessage.slice";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
-import { appointmentsActions } from "@/src/redux/slices/appointments.slice";
-import { createAppointmentActions } from "@/src/redux/slices/createAppointment.slice";
 import { fetchVeterinaries } from "@/src/redux/actions/veterinaries.action";
 import { SERVICES } from "@/src/models/Appointment";
-import { search } from "@/src/redux/actions/globalSearch.action";
+import { editAppointmentActions } from "@/src/redux/slices/editAppointment.slice";
+import { appointmentsActions } from "@/src/redux/slices/appointments.slice";
 
 import Image from "next/image";
 import CloseIcon from "../icons/CloseIcon";
 import EmailIcon from "../icons/EmailIcon";
 import PhoneIcon from "../icons/PhoneIcon";
 import PinIcon from "../icons/PinIcon";
+import { search } from "@/src/redux/actions/globalSearch.action";
 
 const { setAlertMessage } = alertMessageActions;
-const { setAppointments } = appointmentsActions;
+const { updateAppointment } = appointmentsActions;
 const {
-    setIsCreateModalShown,
+    setIsEditModalShown,
+    resetActiveAppointment,
     setTitle,
     setService,
     setDate,
     setStartTime,
     setEndTime,
     setVeterinary,
-    resetFields,
-} = createAppointmentActions;
+} = editAppointmentActions;
 
-export default function CreateAppointmentModal() {
+export default function EditAppointmentModal() {
     const dispatch = useAppDispatch();
 
-    const {
-        title,
-        service,
-        date,
-        startTime,
-        endTime,
-        veterinary,
-        isCreateModalShown,
-    } = useAppSelector((state) => state.createAppointment);
+    const { isEditModalShown, activeAppointment } = useAppSelector(
+        (state) => state.editAppointment
+    );
 
-    const { appointments } = useAppSelector((state) => state.appointments);
     const { veterinaries } = useAppSelector((state) => state.veterinaries);
 
     const timeRanges = Time.getTimeRanges(30);
@@ -55,7 +48,8 @@ export default function CreateAppointmentModal() {
     }, [dispatch]);
 
     const onClickClose = () => {
-        dispatch(setIsCreateModalShown(false));
+        dispatch(setIsEditModalShown(false));
+        dispatch(resetActiveAppointment());
     };
 
     const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,78 +76,70 @@ export default function CreateAppointmentModal() {
         dispatch(setVeterinary(veterinary));
     };
 
-    const onSubmitCreate = (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmitEdit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const timeStart = moment(startTime, PROPER_TIME_FORMAT);
-        const timeEnd = moment(endTime, PROPER_TIME_FORMAT);
+        if (!activeAppointment) {
+            return alert("Appointment not found");
+        }
 
-        if (title === "") {
+        const startTime = moment(
+            activeAppointment.startTime,
+            DEFAULT_TIME_FORMAT
+        );
+        const endTime = moment(activeAppointment.endTime, DEFAULT_TIME_FORMAT);
+
+        if (activeAppointment.title === "") {
             alert("Title is required.");
             return;
         }
 
-        if (service === "") {
+        if (activeAppointment.service === "") {
             alert("Service is required.");
             return;
         }
 
-        if (date === "") {
+        if (activeAppointment.date === "") {
             alert("Date is required.");
             return;
         }
 
-        if (startTime === "") {
+        if (activeAppointment.startTime === "") {
             alert("Start time is required.");
             return;
         }
 
-        if (endTime === "") {
+        if (activeAppointment.endTime === "") {
             alert("Start time is required.");
             return;
         }
 
-        if (!veterinary) {
+        if (!activeAppointment.client.veterinary) {
             alert("Please select veterinary.");
             return;
         }
 
-        if (timeEnd.isBefore(timeStart)) {
+        if (endTime.isBefore(startTime)) {
             alert("End time cannot be before start time");
             return;
         }
 
-        const newAppointment = {
-            id: appointments.length + 1,
-            title,
-            date,
-            service,
-            startTime: moment(timeStart, PROPER_TIME_FORMAT).format(
-                DEFAULT_TIME_FORMAT
-            ),
-            endTime: moment(timeEnd, PROPER_TIME_FORMAT).format(
-                DEFAULT_TIME_FORMAT
-            ),
-            client: {
-                ...appointments[0].client,
-                veterinary,
-            },
-        };
-
         dispatch(
             setAlertMessage({
-                message: "Appointment created successfully",
+                message: "Appointment updated successfully",
                 type: "success",
             })
         );
-        dispatch(resetFields());
-        dispatch(setAppointments([...appointments, newAppointment]));
+
+        dispatch(updateAppointment(activeAppointment));
+        dispatch(setIsEditModalShown(false));
+        dispatch(resetActiveAppointment());
         dispatch(search(""));
     };
 
     return (
         <>
-            {isCreateModalShown && (
+            {isEditModalShown && activeAppointment && (
                 <div
                     tabIndex={-1}
                     aria-hidden="true"
@@ -163,7 +149,7 @@ export default function CreateAppointmentModal() {
                         <div className="relative bg-white rounded-lg shadow">
                             <div className="flex items-start justify-between p-4 border-b rounded-t">
                                 <h3 className="text-xl font-semibold text-gray-900">
-                                    Create new
+                                    Edit Appointment
                                 </h3>
                                 <button
                                     type="button"
@@ -177,8 +163,8 @@ export default function CreateAppointmentModal() {
                             <div className="p-6 space-y-6">
                                 <form
                                     className="space-y-6"
-                                    id="form-create-appointment"
-                                    onSubmit={onSubmitCreate}
+                                    id="form-edit-appointment"
+                                    onSubmit={onSubmitEdit}
                                 >
                                     <div>
                                         <label
@@ -195,7 +181,7 @@ export default function CreateAppointmentModal() {
                                             id="title"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             placeholder="e.g: Brownie's Vaccination"
-                                            value={title}
+                                            value={activeAppointment.title}
                                             onChange={onChangeTitle}
                                             required
                                         />
@@ -212,7 +198,7 @@ export default function CreateAppointmentModal() {
                                         </label>
                                         <select
                                             id="service"
-                                            value={service}
+                                            value={activeAppointment.service}
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             onChange={onChangeService}
                                         >
@@ -241,7 +227,7 @@ export default function CreateAppointmentModal() {
                                             type="date"
                                             id="date"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                            value={date}
+                                            value={activeAppointment.date}
                                             onChange={onChangeDate}
                                             required
                                         />
@@ -259,7 +245,9 @@ export default function CreateAppointmentModal() {
                                             </label>
                                             <select
                                                 id="start-time"
-                                                value={startTime}
+                                                value={
+                                                    activeAppointment.startTime
+                                                }
                                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 onChange={onChangeStartDate}
                                             >
@@ -288,7 +276,9 @@ export default function CreateAppointmentModal() {
                                             </label>
                                             <select
                                                 id="end-time"
-                                                value={endTime}
+                                                value={
+                                                    activeAppointment.endTime
+                                                }
                                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 onChange={onChangeEndDate}
                                             >
@@ -304,8 +294,8 @@ export default function CreateAppointmentModal() {
                                                                     PROPER_TIME_FORMAT
                                                                 ) <=
                                                                 moment(
-                                                                    startTime,
-                                                                    DEFAULT_TIME_FORMAT
+                                                                    activeAppointment.startTime,
+                                                                    "hh:mm:ss"
                                                                 )
                                                             }
                                                         >
@@ -335,9 +325,9 @@ export default function CreateAppointmentModal() {
                                                         onChangeVeterinary(data)
                                                     }
                                                     className={`block max-w-sm p-6 text-left border border-gray-200 rounded-lg shadow hover:bg-gray-100 ${
-                                                        veterinary &&
-                                                        veterinary.id ===
-                                                            data.id
+                                                        activeAppointment.client
+                                                            .veterinary.id ===
+                                                        data.id
                                                             ? "bg-gray-100"
                                                             : "bg-white"
                                                     }`}
@@ -434,7 +424,7 @@ export default function CreateAppointmentModal() {
                                 <button
                                     type="submit"
                                     className="text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                    form="form-create-appointment"
+                                    form="form-edit-appointment"
                                 >
                                     Submit
                                 </button>

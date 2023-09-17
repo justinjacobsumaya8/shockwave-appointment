@@ -1,74 +1,65 @@
 [
     {
-        "title": "Meeting 1",
-        "start_date": "2023-09-16 09:00:00",
-        "end_date": "2023-09-16 10:30:00",
+        "id": 1,
+        "title": "Meeting",
+        "date": "2023-09-18",
+        "start_time": "08:00:00",
+        "end_time": "09:30:00",
+        "service": "Consultation",
         "client": {
             "name": "Jacob Lee",
             "email": "chrissielee@gmail.com",
             "phone": "+01 234 567 8910",
-            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California"
-        },
-        "veterinary": {
-            "id": 1,
-            "name": "Anika Perry",
-            "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
-            "building": "Green Bow Vett",
-            "contact_number": "+63 0123 123"
+            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California",
+            "veterinary": {
+                "id": 1,
+                "name": "Anika Perry",
+                "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
+                "building": "Green Bow Vett",
+                "contact_number": "+63 0123 123"
+            }
         }
     },
     {
-        "title": "Meeting 2",
-        "start_date": "2023-09-16 08:00:00",
-        "end_date": "2023-09-16 10:30:00",
-        "client": {
-            "name": "May Lou",
-            "email": "chrissielee@gmail.com",
-            "phone": "+01 234 567 8910",
-            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California"
-        },
-        "veterinary": {
-            "id": 2,
-            "name": "Danica Jane",
-            "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
-            "building": "Green Bow Vett",
-            "contact_number": "+63 0123 123"
-        }
-    },
-    {
-        "title": "Meeting 3",
-        "start_date": "2023-09-16 08:00:00",
-        "end_date": "2023-09-16 10:30:00",
+        "id": 2,
+        "title": "Wiggy's Vaccination",
+        "date": "2023-09-18",
+        "start_time": "10:30:00",
+        "end_time": "11:30:00",
+        "service": "Vaccination",
         "client": {
             "name": "Crissie Lee",
             "email": "chrissielee@gmail.com",
             "phone": "+01 234 567 8910",
-            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California"
-        },
-        "veterinary": {
-            "id": 3,
-            "name": "John Fins",
-            "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
-            "building": "Green Bow Vett",
-            "contact_number": "+63 0123 123"
+            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California",
+            "veterinary": {
+                "id": 4,
+                "name": "John Fins",
+                "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
+                "building": "Green Bow Vett",
+                "contact_number": "+63 0123 123"
+            }
         }
     },
     {
+        "id": 3,
         "title": "Brownie's Vaccination",
-        "start_date": "2023-09-16 11:00:00",
-        "end_date": "2023-09-16 13:00:00",
+        "date": "2023-09-18",
+        "start_time": "11:00:00",
+        "end_time": "12:00:00",
+        "service": "Vaccination",
         "client": {
             "name": "Crissie Lee",
             "email": "chrissielee@gmail.com",
             "phone": "+01 234 567 8910",
-            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California"
-        },
-        "veterinary": {
-            "id": 4,
-            "name": "John Fins",
-            "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
-            "building": "Green Bow Vett",
-            "contact_number": "+63 0123 123"
+            "address": "1st Avenue, Golden Street, Springville Village, San Diego, California",
+            "veterinary": {
+                "id": 4,
+                "name": "John Fins",
+                "address": "4517 Washington Avenue, Manchester, Kentucky 39495",
+                "building": "Green Bow Vett",
+                "contact_number": "+63 0123 123"
+            }
         }
     }
 ]
