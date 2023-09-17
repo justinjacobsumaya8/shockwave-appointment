@@ -1,4 +1,4 @@
-export default function DotsVertical() {
+export default function DotsVerticalIcon() {
     return (
         <svg
             width="20"

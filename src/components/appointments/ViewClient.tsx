@@ -1,11 +1,14 @@
 import moment from "moment";
+import { useState } from "react";
+import { getAge } from "@/src/utils/helpers";
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
+import { search } from "@/src/redux/actions/globalSearch.action";
+import { DEFAULT_DATE_FORMAT } from "@/src/models/Time";
 import { editAppointmentActions } from "@/src/redux/slices/editAppointment.slice";
 import { appointmentsActions } from "@/src/redux/slices/appointments.slice";
-import { search } from "@/src/redux/actions/globalSearch.action";
+import { showAppointmentActions } from "@/src/redux/slices/showAppointment.slice";
 
 import Image from "next/image";
-import DotsVerticalIcon from "../icons/DotsVerticalIcon";
 import EmailIcon from "../icons/EmailIcon";
 import PhoneIcon from "../icons/PhoneIcon";
 import PinIcon from "../icons/PinIcon";
@@ -13,13 +16,14 @@ import BreedIcon from "../icons/BreedIcon";
 import GenderIcon from "../icons/GenderIcon";
 import AgeIcon from "../icons/AgeIcon";
 import CalendarIcon from "../icons/CalendarIcon";
-import { DEFAULT_DATE_FORMAT } from "@/src/models/Time";
-import { getAge } from "@/src/utils/helpers";
+import DotsVerticalIcon from "../icons/DotsVerticalIcon";
 
 const { removeAppointment, setSelectedAppointment } = appointmentsActions;
 
 export default function ShowClient() {
     const dispatch = useAppDispatch();
+
+    const [isDropdownShown, setIsDropdownShown] = useState(false);
 
     const { selectedAppointment } = useAppSelector(
         (state) => state.appointments
@@ -29,7 +33,35 @@ export default function ShowClient() {
         return "";
     }
 
+    const onClickClose = () => {
+        dispatch(setSelectedAppointment(null));
+    };
+
+    const onClickToggleDropdown = () => {
+        setIsDropdownShown(!isDropdownShown);
+    };
+
+    const onClickShow = () => {
+        setIsDropdownShown(false);
+
+        dispatch(showAppointmentActions.setIsViewModalShown(true));
+        dispatch(
+            showAppointmentActions.setActiveAppointment(selectedAppointment)
+        );
+    };
+
+    const onClickEdit = () => {
+        setIsDropdownShown(false);
+
+        dispatch(editAppointmentActions.setIsEditModalShown(true));
+        dispatch(
+            editAppointmentActions.setActiveAppointment(selectedAppointment)
+        );
+    };
+
     const onClickReschedule = () => {
+        setIsDropdownShown(false);
+
         dispatch(editAppointmentActions.setIsRescheduleModalShown(true));
         dispatch(
             editAppointmentActions.setActiveAppointment(selectedAppointment)
@@ -37,6 +69,8 @@ export default function ShowClient() {
     };
 
     const onClickCancel = () => {
+        setIsDropdownShown(false);
+
         if (!confirm("Are you sure you want to cancel this appointment?")) {
             return;
         }
@@ -44,10 +78,6 @@ export default function ShowClient() {
         dispatch(removeAppointment(selectedAppointment));
         dispatch(setSelectedAppointment(null));
         dispatch(search(""));
-    };
-
-    const onClickClose = () => {
-        dispatch(setSelectedAppointment(null));
     };
 
     return (
@@ -71,10 +101,67 @@ export default function ShowClient() {
                         <p className="text-sm text-gray-400">Client</p>
                     </div>
                 </div>
-                <div>
-                    <button type="button">
+                <div className="relative">
+                    <button type="button" onClick={onClickToggleDropdown}>
                         <DotsVerticalIcon />
                     </button>
+                    {isDropdownShown && (
+                        <div className="absolute origin-top-right right-[1rem] top-15 mt-2 w-60 rounded-md shadow-lg shadow-slate-200 text-sm overflow-hidden border border-gray-200 z-30">
+                            <div
+                                className="rounded-md bg-white shadow-xs"
+                                role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="options-menu"
+                            >
+                                <div className="bg-white py-3">
+                                    <div className="w-full text-left">
+                                        <button
+                                            type="button"
+                                            onClick={onClickShow}
+                                            className="hover:bg-gray-100 text-left text-sm w-full px-3 py-1 flex items-center gap-2"
+                                        >
+                                            <div className="text-gray-600 text-sm">
+                                                View
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <div className="pt-1 w-full text-left ">
+                                        <button
+                                            type="button"
+                                            onClick={onClickEdit}
+                                            className="hover:bg-gray-100 text-left text-sm w-full px-3 py-1 flex items-center gap-2"
+                                        >
+                                            <div className="text-gray-600 text-sm">
+                                                Edit
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <div className="pt-1 w-full text-left ">
+                                        <button
+                                            type="button"
+                                            onClick={onClickReschedule}
+                                            className="hover:bg-gray-100 text-left text-sm w-full px-3 py-1 flex items-center gap-2"
+                                        >
+                                            <div className="text-gray-600 text-sm">
+                                                Reschedule
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <div className="pt-1 w-full text-left ">
+                                        <button
+                                            type="button"
+                                            onClick={onClickCancel}
+                                            className="hover:bg-gray-100 text-left text-sm w-full px-3 py-1 flex items-center gap-2"
+                                        >
+                                            <div className="text-gray-600 text-sm">
+                                                Cancel
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="border-b py-4 px-8">
