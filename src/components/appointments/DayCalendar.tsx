@@ -201,7 +201,7 @@ export default function DayCalendar() {
                     key={index}
                 >
                     <div
-                        className={`absolute inset-0 block w-full overflow-x-auto text-left p-3 border rounded-lg shadow ${
+                        className={`inset-0 flex h-full w-full overflow-x-auto text-left p-3 border rounded-lg shadow ${
                             appointment.service === CONSULTATION_SERVICE
                                 ? "bg-violet-100 border-violet-500 hover:bg-violet-200"
                                 : "bg-orange-50 border-orange-500 hover:bg-orange-100"
