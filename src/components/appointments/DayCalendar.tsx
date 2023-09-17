@@ -34,7 +34,7 @@ import ViewAppointmentModal from "./ViewAppointmentModal";
 import RescheduleAppointmentModal from "./RescheduleAppointmentModal";
 
 const { setIsCreateModalShown } = createAppointmentActions;
-const { setSelectedClient, removeAppointment } = appointmentsActions;
+const { setSelectedAppointment, removeAppointment } = appointmentsActions;
 
 const moment = extendMoment(Moment);
 
@@ -47,9 +47,11 @@ export default function DayCalendar() {
     const today = new Date();
     const [date, setDate] = useState(today);
 
-    const { appointments, selectedClient } = useAppSelector(
+    const { appointments, selectedAppointment } = useAppSelector(
         (state) => state.appointments
     );
+
+    console.log(appointments);
 
     const [isDropdownShownBooleans, setIsDropdownShownBooleans] = useState<
         boolean[]
@@ -132,7 +134,7 @@ export default function DayCalendar() {
             }
 
             const onClickClient = () => {
-                dispatch(setSelectedClient(appointment.client));
+                dispatch(setSelectedAppointment(appointment));
             };
 
             const onClickToggleDropdown = () => {
@@ -511,7 +513,7 @@ export default function DayCalendar() {
                         </div>
                     </div>
                 </div>
-                {selectedClient && (
+                {selectedAppointment && (
                     <div className="border w-[30%]">
                         <ViewClient />
                     </div>

@@ -5,7 +5,6 @@ export interface RawClientInterface {
     email: string;
     phone: string;
     address: string;
-    veterinary: RawVeterinaryInterface
 }
 
 export interface ClientInterface {
@@ -13,7 +12,6 @@ export interface ClientInterface {
     email: string;
     phone: string;
     address: string;
-    veterinary: VeterinaryInterface;
 }
 
 class Client {
@@ -23,7 +21,6 @@ class Client {
             email: object.email,
             phone: object.phone,
             address: object.address,
-            veterinary: Veterinary.format(object.veterinary)
         };
     }
 }

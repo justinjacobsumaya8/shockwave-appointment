@@ -10,9 +10,6 @@ import { showAppointmentActions } from "@/src/redux/slices/showAppointment.slice
 
 import Image from "next/image";
 import CloseIcon from "../icons/CloseIcon";
-import EmailIcon from "../icons/EmailIcon";
-import PhoneIcon from "../icons/PhoneIcon";
-import PinIcon from "../icons/PinIcon";
 
 const { setIsViewModalShown, resetActiveAppointment } = showAppointmentActions;
 
@@ -54,36 +51,23 @@ export default function ViewAppointmentModal() {
                             <div className="p-6 space-y-6">
                                 <div className="grid grid-cols-2">
                                     <div>
-                                        <label
-                                            htmlFor="title"
-                                            className="block mb-2 text-sm font-medium text-gray-400"
-                                        >
+                                        <span className="block mb-2 text-sm font-medium text-gray-400">
                                             Title
-                                        </label>
+                                        </span>
                                         <span>{activeAppointment.title}</span>
                                     </div>
                                     <div>
-                                        <div>
-                                            <label
-                                                htmlFor="service"
-                                                className="block mb-2 text-sm font-medium text-gray-400"
-                                            >
-                                                Service
-                                            </label>
-                                            <span>
-                                                {activeAppointment.service}
-                                            </span>
-                                        </div>
+                                        <span className="block mb-2 text-sm font-medium text-gray-400">
+                                            Service
+                                        </span>
+                                        <span>{activeAppointment.service}</span>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="grid grid-cols-2">
                                     <div>
-                                        <label
-                                            htmlFor="date"
-                                            className="block mb-2 text-sm font-medium text-gray-400"
-                                        >
+                                        <span className="block mb-2 text-sm font-medium text-gray-400">
                                             Date
-                                        </label>
+                                        </span>
                                         <span>
                                             {moment(
                                                 activeAppointment.date,
@@ -92,12 +76,9 @@ export default function ViewAppointmentModal() {
                                         </span>
                                     </div>
                                     <div>
-                                        <label
-                                            htmlFor="start-time"
-                                            className="block mb-2 text-sm font-medium text-gray-400"
-                                        >
+                                        <span className="block mb-2 text-sm font-medium text-gray-400">
                                             Time
-                                        </label>
+                                        </span>
                                         <span>
                                             {moment(
                                                 activeAppointment.startTime,
@@ -111,19 +92,29 @@ export default function ViewAppointmentModal() {
                                         </span>
                                     </div>
                                 </div>
+                                <div className="grid grid-cols-2">
+                                    <div>
+                                        <span className="block mb-2 text-sm font-medium text-gray-400">
+                                            Veterinary
+                                        </span>
+                                        <span>
+                                            {activeAppointment.veterinary.name}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span className="block mb-2 text-sm font-medium text-gray-400">
+                                            Pet
+                                        </span>
+                                        <span>
+                                            {activeAppointment.pet.name}
+                                        </span>
+                                    </div>
+                                </div>
                                 <div>
-                                    <label
-                                        htmlFor="time"
-                                        className="block mb-2 text-sm font-medium text-gray-400"
-                                    >
-                                        Veterinary
-                                    </label>
-                                    <span>
-                                        {
-                                            activeAppointment.client.veterinary
-                                                .name
-                                        }
+                                    <span className="block mb-2 text-sm font-medium text-gray-400">
+                                        Client
                                     </span>
+                                    <span>{activeAppointment.client.name}</span>
                                 </div>
                             </div>
                         </div>

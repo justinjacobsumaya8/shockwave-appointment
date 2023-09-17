@@ -1,3 +1,4 @@
+import { PetInterface } from "@/src/models/Pet";
 import { VeterinaryInterface } from "@/src/models/Veterinary";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -7,6 +8,17 @@ const initialState = {
     date: "" as string,
     startTime: "" as string,
     endTime: "" as string,
+    pet: {
+        name: "",
+        breed: "",
+        birthday: "",
+        gender: "",
+        type: "",
+        image: "",
+    } as PetInterface,
+    client: {
+        name: "" as string,
+    },
     veterinary: null as VeterinaryInterface | null,
     isCreateModalShown: false as boolean,
 };
@@ -56,6 +68,27 @@ const createAppointmentSlice = createSlice({
                 ...state,
                 isCreateModalShown: Boolean(action.payload)
             }
+        },
+        setPetName: (state, action) => {
+            state.pet.name = action.payload
+        },
+        setPetBreed: (state, action) => {
+            state.pet.breed = action.payload
+        },
+        setPetBirthday: (state, action) => {
+            state.pet.birthday = action.payload
+        },
+        setPetGender: (state, action) => {
+            state.pet.gender = action.payload
+        },
+        setPetType: (state, action) => {
+            state.pet.type = action.payload
+        },
+        setPetImage: (state, action) => {
+            state.pet.image = action.payload
+        },
+        setClientName: (state, action) => {
+            state.client.name = action.payload
         },
         resetFields: (state) => {
             return {

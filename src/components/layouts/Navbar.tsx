@@ -1,6 +1,8 @@
 import user from "@/src/dummy/user.json";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useAppDispatch } from "@/src/redux/hooks";
+import { appointmentsActions } from "@/src/redux/slices/appointments.slice";
 
 import Image from "next/image";
 import SearchIcon from "@/src/components/icons/SearchIcon";
@@ -10,7 +12,10 @@ import SettingsIcon from "@/src/components/icons/SettingsIcon";
 import SignoutIcon from "@/src/components/icons/SignoutIcon";
 import UserImage from "@/public/images/user-img-1.jpg";
 
+const { setSelectedAppointment } = appointmentsActions;
+
 export default function Navbar() {
+    const dispatch = useAppDispatch();
     const router = useRouter();
 
     const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -26,6 +31,7 @@ export default function Navbar() {
 
     const onSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        dispatch(setSelectedAppointment(null));
 
         router.push(`/search?keyword=${keyword}`);
     };

@@ -39,40 +39,69 @@ const editAppointmentSlice = createSlice({
             }
         },
         setTitle: (state, action) => {
-            if (!state.activeAppointment) {
-                return;
+            if (state.activeAppointment) {
+                state.activeAppointment.title = action.payload;
             }
-            state.activeAppointment.title = action.payload;
         },
         setService: (state, action) => {
-            if (!state.activeAppointment) {
-                return;
+            if (state.activeAppointment) {
+                state.activeAppointment.service = action.payload;
             }
-            state.activeAppointment.service = action.payload;
         },
         setDate: (state, action) => {
-            if (!state.activeAppointment) {
-                return;
+            if (state.activeAppointment) {
+                state.activeAppointment.date = action.payload
             }
-            state.activeAppointment.date = action.payload
         },
         setStartTime: (state, action) => {
-            if (!state.activeAppointment) {
-                return;
+            if (state.activeAppointment) {
+                state.activeAppointment.startTime = action.payload
             }
-            state.activeAppointment.startTime = action.payload
         },
         setEndTime: (state, action) => {
-            if (!state.activeAppointment) {
-                return;
+            if (state.activeAppointment) {
+                state.activeAppointment.endTime = action.payload
             }
-            state.activeAppointment.endTime = action.payload
         },
         setVeterinary: (state, action) => {
-            if (!state.activeAppointment) {
-                return;
+            if (state.activeAppointment) {
+                state.activeAppointment.veterinary = {...action.payload};
             }
-            state.activeAppointment.client.veterinary = {...action.payload};
+        },
+        setPetName: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.pet.name = action.payload
+            }
+        },
+        setPetBreed: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.pet.breed = action.payload
+            }
+        },
+        setPetBirthday: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.pet.birthday = action.payload
+            }
+        },
+        setPetGender: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.pet.gender = action.payload
+            }
+        },
+        setPetType: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.pet.type = action.payload
+            }
+        },
+        setPetImage: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.pet.image = action.payload
+            }
+        },
+        setClientName: (state, action) => {
+            if (state.activeAppointment) {
+                state.activeAppointment.client.name = action.payload
+            }
         },
         resetActiveAppointment: (state) => {
             return {

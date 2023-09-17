@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ClientInterface } from "@/src/models/Client";
 import { AppointmentInterface } from "@/src/models/Appointment";
 
 const initialState = {
     isLoading: false as boolean,
     appointments: [] as AppointmentInterface[],
-    selectedClient: null as ClientInterface | null,
+    selectedAppointment: null as AppointmentInterface | null,
 };
 
 const appointmentsSlice = createSlice({
@@ -24,10 +23,10 @@ const appointmentsSlice = createSlice({
                 appointments: [...action.payload]
             };
         },
-        setSelectedClient: (state, action) => {
+        setSelectedAppointment: (state, action) => {
             return {
                 ...state,
-                selectedClient: {...action.payload}
+                selectedAppointment: action.payload
             }
         },
         updateAppointment: (state, action) => {

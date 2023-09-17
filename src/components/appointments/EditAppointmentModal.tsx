@@ -30,6 +30,13 @@ const {
     setStartTime,
     setEndTime,
     setVeterinary,
+    setPetName,
+    setPetBreed,
+    setPetBirthday,
+    setPetGender,
+    setPetType,
+    setPetImage,
+    setClientName,
 } = editAppointmentActions;
 
 export default function EditAppointmentModal() {
@@ -70,6 +77,39 @@ export default function EditAppointmentModal() {
 
     const onChangeEndDate = (event: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(setEndTime(event.target.value));
+    };
+
+    const onChangePetName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setPetName(event.target.value));
+    };
+
+    const onChangePetBreed = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setPetBreed(event.target.value));
+    };
+
+    const onChangePetBirthday = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        dispatch(setPetBirthday(event.target.value));
+    };
+
+    const onChangePetGender = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(setPetGender(event.target.value));
+    };
+
+    const onChangePetType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(setPetType(event.target.value));
+    };
+
+    const onChangePetImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const file = event.target.files[0];
+            dispatch(setPetImage(URL.createObjectURL(file)));
+        }
+    };
+
+    const onChangeClientName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setClientName(event.target.value));
     };
 
     const onChangeVeterinary = (veterinary: VeterinaryInterface) => {
@@ -114,13 +154,43 @@ export default function EditAppointmentModal() {
             return;
         }
 
-        if (!activeAppointment.client.veterinary) {
+        if (!activeAppointment.veterinary) {
             alert("Please select veterinary.");
             return;
         }
 
         if (endTime.isBefore(startTime)) {
             alert("End time cannot be before start time");
+            return;
+        }
+
+        if (activeAppointment.pet.name === "") {
+            alert("Pet name is required.");
+            return;
+        }
+
+        if (activeAppointment.pet.breed === "") {
+            alert("Pet breed is required.");
+            return;
+        }
+
+        if (activeAppointment.pet.birthday === "") {
+            alert("Pet birthday is required.");
+            return;
+        }
+
+        if (activeAppointment.pet.type === "") {
+            alert("Pet type is required.");
+            return;
+        }
+
+        if (activeAppointment.pet.image === "") {
+            alert("Pet image is required.");
+            return;
+        }
+
+        if (activeAppointment.client.name === "") {
+            alert("Client name is required.");
             return;
         }
 
@@ -306,16 +376,190 @@ export default function EditAppointmentModal() {
                                             </select>
                                         </div>
                                     </div>
+                                    <hr />
+                                    <div className="uppercase text-xs font-bold text-gray-400 tracking-wide">
+                                        Pet Details
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label
+                                                htmlFor="pet-name"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Name
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="pet-name"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value={
+                                                    activeAppointment.pet.name
+                                                }
+                                                placeholder="e.g: Brownie"
+                                                onChange={onChangePetName}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor="pet-breed"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Breed
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="pet-breed"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value={
+                                                    activeAppointment.pet.breed
+                                                }
+                                                placeholder="e.g: Bulldog"
+                                                onChange={onChangePetBreed}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label
+                                                htmlFor="pet-birthday"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Birthday
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <input
+                                                type="date"
+                                                id="pet-birthday"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value={
+                                                    activeAppointment.pet
+                                                        .birthday
+                                                }
+                                                onChange={onChangePetBirthday}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor="pet-gender"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Gender
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <select
+                                                id="pet-gender"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value={
+                                                    activeAppointment.pet.gender
+                                                }
+                                                onChange={onChangePetGender}
+                                                required
+                                            >
+                                                <option value="">--</option>
+                                                <option value="Male">
+                                                    Male
+                                                </option>
+                                                <option value="Female">
+                                                    Female
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label
+                                                htmlFor="pet-type"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Type
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <select
+                                                id="pet-type"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value={
+                                                    activeAppointment.pet.type
+                                                }
+                                                onChange={onChangePetType}
+                                                required
+                                            >
+                                                <option value="">--</option>
+                                                <option value="Dog">Dog</option>
+                                                <option value="Cat">Cat</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label
+                                                htmlFor="pet-image"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Image
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div className="flex gap-3">
+                                                <input
+                                                    type="file"
+                                                    id="pet-image"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                    onChange={onChangePetImage}
+                                                    accept="image/*"
+                                                />
+                                                <Image
+                                                    src={
+                                                        activeAppointment.pet
+                                                            .image
+                                                    }
+                                                    width={52}
+                                                    height={52}
+                                                    className="rounded-full"
+                                                    alt="Pet 1"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div>
                                         <label
-                                            htmlFor="time"
+                                            htmlFor="client-name"
                                             className="block mb-2 text-sm font-medium text-gray-900"
                                         >
-                                            Select Veterinary
+                                            {`Owner's name`}
                                             <span className="text-red-500">
                                                 *
                                             </span>
                                         </label>
+                                        <input
+                                            type="text"
+                                            id="client-name"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            value={
+                                                activeAppointment.client.name
+                                            }
+                                            onChange={onChangeClientName}
+                                            required
+                                        />
+                                    </div>
+                                    <hr />
+                                    <div>
+                                        <div className="uppercase text-xs font-bold text-gray-400 tracking-wide mb-5">
+                                            Select Veterinary
+                                        </div>
                                         <div className="grid grid-cols-3 gap-3">
                                             {veterinaries.map((data, index) => (
                                                 <button
@@ -325,7 +569,7 @@ export default function EditAppointmentModal() {
                                                         onChangeVeterinary(data)
                                                     }
                                                     className={`block max-w-sm p-6 text-left border border-gray-200 rounded-lg shadow hover:bg-gray-100 ${
-                                                        activeAppointment.client
+                                                        activeAppointment
                                                             .veterinary.id ===
                                                         data.id
                                                             ? "bg-gray-100"

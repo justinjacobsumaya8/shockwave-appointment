@@ -1,4 +1,8 @@
-import { useAppSelector } from "@/src/redux/hooks";
+import moment from "moment";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks";
+import { editAppointmentActions } from "@/src/redux/slices/editAppointment.slice";
+import { appointmentsActions } from "@/src/redux/slices/appointments.slice";
+import { search } from "@/src/redux/actions/globalSearch.action";
 
 import Image from "next/image";
 import DotsVerticalIcon from "../icons/DotsVerticalIcon";
@@ -9,13 +13,42 @@ import BreedIcon from "../icons/BreedIcon";
 import GenderIcon from "../icons/GenderIcon";
 import AgeIcon from "../icons/AgeIcon";
 import CalendarIcon from "../icons/CalendarIcon";
+import { DEFAULT_DATE_FORMAT } from "@/src/models/Time";
+import { getAge } from "@/src/utils/helpers";
+
+const { removeAppointment, setSelectedAppointment } = appointmentsActions;
 
 export default function ShowClient() {
-    const { selectedClient } = useAppSelector((state) => state.appointments);
+    const dispatch = useAppDispatch();
 
-    if (!selectedClient) {
+    const { selectedAppointment } = useAppSelector(
+        (state) => state.appointments
+    );
+
+    if (!selectedAppointment) {
         return "";
     }
+
+    const onClickReschedule = () => {
+        dispatch(editAppointmentActions.setIsRescheduleModalShown(true));
+        dispatch(
+            editAppointmentActions.setActiveAppointment(selectedAppointment)
+        );
+    };
+
+    const onClickCancel = () => {
+        if (!confirm("Are you sure you want to cancel this appointment?")) {
+            return;
+        }
+
+        dispatch(removeAppointment(selectedAppointment));
+        dispatch(setSelectedAppointment(null));
+        dispatch(search(""));
+    };
+
+    const onClickClose = () => {
+        dispatch(setSelectedAppointment(null));
+    };
 
     return (
         <div className="overflow-y-auto max-h-[90vh]">
@@ -25,6 +58,7 @@ export default function ShowClient() {
                         src="/images/profile-1.png"
                         width={70}
                         height={70}
+                        className="rounded-full"
                         alt="Profile 1"
                     />
                     <div>
@@ -32,7 +66,7 @@ export default function ShowClient() {
                             className="text-lg font-bold"
                             style={{ letterSpacing: " 0.48px" }}
                         >
-                            {selectedClient.name}
+                            {selectedAppointment.client.name}
                         </p>
                         <p className="text-sm text-gray-400">Client</p>
                     </div>
@@ -60,7 +94,7 @@ export default function ShowClient() {
                             </td>
                             <td>
                                 <span className="text-sm">
-                                    {selectedClient.email}
+                                    chrissielee@gmail.com
                                 </span>
                             </td>
                         </tr>
@@ -75,7 +109,7 @@ export default function ShowClient() {
                             </td>
                             <td>
                                 <span className="text-sm">
-                                    {selectedClient.phone}
+                                    +01 234 567 8910
                                 </span>
                             </td>
                         </tr>
@@ -90,7 +124,8 @@ export default function ShowClient() {
                             </td>
                             <td className="py-2">
                                 <span className="text-sm">
-                                    {selectedClient.address}
+                                    1st Avenue, Golden Street, Springville
+                                    Village, San Diego, California
                                 </span>
                             </td>
                         </tr>
@@ -106,11 +141,12 @@ export default function ShowClient() {
                         src="/images/clinic-1.png"
                         width={52}
                         height={52}
+                        className="rounded-full"
                         alt="Clinic 1"
                     />
                     <div>
                         <p className="text-sm font-semibold">
-                            {selectedClient.veterinary.building}
+                            {selectedAppointment.veterinary.building}
                         </p>
                         <p className="text-sm text-gray-400">Kentucky</p>
                     </div>
@@ -143,7 +179,10 @@ export default function ShowClient() {
                             </td>
                             <td>
                                 <span className="text-sm">
-                                    {selectedClient.veterinary.contactNumber}
+                                    {
+                                        selectedAppointment.veterinary
+                                            .contactNumber
+                                    }
                                 </span>
                             </td>
                         </tr>
@@ -158,7 +197,7 @@ export default function ShowClient() {
                             </td>
                             <td className="py-2">
                                 <span className="text-sm">
-                                    {selectedClient.veterinary.address}
+                                    {selectedAppointment.veterinary.address}
                                 </span>
                             </td>
                         </tr>
@@ -171,14 +210,19 @@ export default function ShowClient() {
                 </div>
                 <div className="mt-4 flex items-center gap-4">
                     <Image
-                        src="/images/pet-1.png"
+                        src={selectedAppointment.pet.image}
                         width={52}
                         height={52}
+                        className="rounded-full"
                         alt="Pet 1"
                     />
                     <div>
-                        <p className="text-sm font-semibold">Brownie</p>
-                        <p className="text-sm text-gray-400">Dog</p>
+                        <p className="text-sm font-semibold">
+                            {selectedAppointment.pet.name}
+                        </p>
+                        <p className="text-sm text-gray-400">
+                            {selectedAppointment.pet.type}
+                        </p>
                     </div>
                 </div>
                 <table className="mt-2">
@@ -193,7 +237,9 @@ export default function ShowClient() {
                                 </div>
                             </td>
                             <td>
-                                <span className="text-sm">French Bulldog</span>
+                                <span className="text-sm">
+                                    {selectedAppointment.pet.breed}
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -206,7 +252,9 @@ export default function ShowClient() {
                                 </div>
                             </td>
                             <td>
-                                <span className="text-sm">Male</span>
+                                <span className="text-sm">
+                                    {selectedAppointment.pet.gender}
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -219,7 +267,13 @@ export default function ShowClient() {
                                 </div>
                             </td>
                             <td className="py-2">
-                                <span className="text-sm">10 months</span>
+                                <span className="text-sm">
+                                    {
+                                        getAge(selectedAppointment.pet.birthday)
+                                            .months
+                                    }{" "}
+                                    months
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -233,7 +287,10 @@ export default function ShowClient() {
                             </td>
                             <td className="py-2">
                                 <span className="text-sm">
-                                    January 12, 2023
+                                    {moment(
+                                        selectedAppointment.pet.birthday,
+                                        DEFAULT_DATE_FORMAT
+                                    ).format("MMMM DD, YYYY")}
                                 </span>
                             </td>
                         </tr>
@@ -244,6 +301,7 @@ export default function ShowClient() {
                 <div>
                     <button
                         type="button"
+                        onClick={onClickReschedule}
                         className="bg-primary hover:bg-orange-600 text-white w-full rounded-lg p-2 mb-3"
                     >
                         Reschedule Appointment
@@ -252,9 +310,10 @@ export default function ShowClient() {
                 <div>
                     <button
                         type="button"
+                        onClick={onClickClose}
                         className="bg-white text-gray-500 w-full rounded-lg p-2 border border-gray-200 hover:bg-gray-100 hover:border-gray-100"
                     >
-                        Cancel Appointment
+                        Close
                     </button>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import Client, { ClientInterface, RawClientInterface } from "./Client";
+import Pet, { PetInterface, RawPetInterface } from "./Pet";
 import Veterinary, { RawVeterinaryInterface, VeterinaryInterface } from "./Veterinary";
 
 export const CONSULTATION_SERVICE = "Consultation";
@@ -16,7 +17,9 @@ interface RawAppointmentInterface {
     date: string;
     start_time: string;
     end_time: string;
-    client: RawClientInterface,
+    client: RawClientInterface;
+    veterinary: RawVeterinaryInterface;
+    pet: RawPetInterface;
 };
 
 export interface AppointmentInterface {
@@ -26,7 +29,9 @@ export interface AppointmentInterface {
     date: string;
     startTime: string;
     endTime: string;
-    client: ClientInterface,
+    client: ClientInterface;
+    veterinary: VeterinaryInterface;
+    pet: PetInterface
 }
 
 class Appointment {
@@ -39,6 +44,8 @@ class Appointment {
             endTime: object.end_time,
             service: object.service,
             client: Client.format(object.client),
+            veterinary: Veterinary.format(object.veterinary),
+            pet: Pet.format(object.pet)
         };
     }
 }
