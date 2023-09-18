@@ -470,7 +470,7 @@ export default function DayCalendar() {
                                                     ? "border-t"
                                                     : ""
                                             }${
-                                                timeRanges.length - 1 === index
+                                                timeRanges.length === index
                                                     ? "border-b"
                                                     : ""
                                             }`}

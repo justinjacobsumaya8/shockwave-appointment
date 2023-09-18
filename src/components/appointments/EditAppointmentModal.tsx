@@ -11,13 +11,13 @@ import { fetchVeterinaries } from "@/src/redux/actions/veterinaries.action";
 import { SERVICES } from "@/src/models/Appointment";
 import { editAppointmentActions } from "@/src/redux/slices/editAppointment.slice";
 import { appointmentsActions } from "@/src/redux/slices/appointments.slice";
+import { search } from "@/src/redux/actions/globalSearch.action";
 
 import Image from "next/image";
 import CloseIcon from "../icons/CloseIcon";
 import EmailIcon from "../icons/EmailIcon";
 import PhoneIcon from "../icons/PhoneIcon";
 import PinIcon from "../icons/PinIcon";
-import { search } from "@/src/redux/actions/globalSearch.action";
 
 const { setAlertMessage } = alertMessageActions;
 const { updateAppointment } = appointmentsActions;
@@ -125,9 +125,9 @@ export default function EditAppointmentModal() {
 
         const startTime = moment(
             activeAppointment.startTime,
-            DEFAULT_TIME_FORMAT
+            PROPER_TIME_FORMAT
         );
-        const endTime = moment(activeAppointment.endTime, DEFAULT_TIME_FORMAT);
+        const endTime = moment(activeAppointment.endTime, PROPER_TIME_FORMAT);
 
         if (activeAppointment.title === "") {
             alert("Title is required.");
@@ -201,7 +201,13 @@ export default function EditAppointmentModal() {
             })
         );
 
-        dispatch(updateAppointment(activeAppointment));
+        dispatch(
+            updateAppointment({
+                ...activeAppointment,
+                startTime: startTime.format("HH:mm:ss"),
+                endTime: endTime.format("HH:mm:ss"),
+            })
+        );
         dispatch(setIsEditModalShown(false));
         dispatch(resetActiveAppointment());
         dispatch(search(""));
@@ -365,7 +371,7 @@ export default function EditAppointmentModal() {
                                                                 ) <=
                                                                 moment(
                                                                     activeAppointment.startTime,
-                                                                    "hh:mm:ss"
+                                                                    PROPER_TIME_FORMAT
                                                                 )
                                                             }
                                                         >

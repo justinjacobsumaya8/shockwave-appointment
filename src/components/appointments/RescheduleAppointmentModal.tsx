@@ -62,9 +62,9 @@ export default function RescheduleAppointmentModal() {
 
         const startTime = moment(
             activeAppointment.startTime,
-            DEFAULT_TIME_FORMAT
+            PROPER_TIME_FORMAT
         );
-        const endTime = moment(activeAppointment.endTime, DEFAULT_TIME_FORMAT);
+        const endTime = moment(activeAppointment.endTime, PROPER_TIME_FORMAT);
 
         if (activeAppointment.date === "") {
             alert("Date is required.");
@@ -93,7 +93,13 @@ export default function RescheduleAppointmentModal() {
             })
         );
 
-        dispatch(updateAppointment(activeAppointment));
+        dispatch(
+            updateAppointment({
+                ...activeAppointment,
+                startTime: startTime.format("HH:mm:ss"),
+                endTime: endTime.format("HH:mm:ss"),
+            })
+        );
         dispatch(setIsRescheduleModalShown(false));
         dispatch(resetActiveAppointment());
         dispatch(search(""));
@@ -210,7 +216,7 @@ export default function RescheduleAppointmentModal() {
                                                                 ) <=
                                                                 moment(
                                                                     activeAppointment.startTime,
-                                                                    "hh:mm:ss"
+                                                                    PROPER_TIME_FORMAT
                                                                 )
                                                             }
                                                         >

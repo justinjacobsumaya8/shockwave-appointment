@@ -212,12 +212,8 @@ export default function CreateAppointmentModal() {
             title,
             date,
             service,
-            startTime: moment(timeStart, PROPER_TIME_FORMAT).format(
-                DEFAULT_TIME_FORMAT
-            ),
-            endTime: moment(timeEnd, PROPER_TIME_FORMAT).format(
-                DEFAULT_TIME_FORMAT
-            ),
+            startTime: timeStart.format("HH:mm:ss"),
+            endTime: timeEnd.format("HH:mm:ss"),
             pet,
             veterinary,
             client: {
@@ -391,7 +387,7 @@ export default function CreateAppointmentModal() {
                                                                 ) <=
                                                                 moment(
                                                                     startTime,
-                                                                    DEFAULT_TIME_FORMAT
+                                                                    PROPER_TIME_FORMAT
                                                                 )
                                                             }
                                                         >
