@@ -51,8 +51,6 @@ export default function DayCalendar() {
         (state) => state.appointments
     );
 
-    console.log(appointments);
-
     const [isDropdownShownBooleans, setIsDropdownShownBooleans] = useState<
         boolean[]
     >([]);
@@ -87,6 +85,7 @@ export default function DayCalendar() {
             startElement: HTMLTableCellElement;
             endElement: HTMLTableCellElement;
         }) => {
+            const datetimeFormat = "YYYY-MM-DD hh:mm:ss";
             const endTime = endElement.getAttribute("data-time") as string;
 
             let offsetBottom = endElement.offsetTop;
@@ -100,15 +99,27 @@ export default function DayCalendar() {
             const bottom = -offsetBottom + "px";
 
             const timeInterval = moment.range(
-                moment(appointment.startTime, DEFAULT_TIME_FORMAT),
-                moment(appointment.endTime, DEFAULT_TIME_FORMAT)
+                moment(
+                    appointment.date + " " + appointment.startTime,
+                    datetimeFormat
+                ),
+                moment(
+                    appointment.date + " " + appointment.endTime,
+                    datetimeFormat
+                )
             );
 
             let overlapIndexes: number[] = [];
 
             appointments.map((data, appointmentIndex) => {
-                const start = moment(data.startTime, DEFAULT_TIME_FORMAT);
-                const end = moment(data.endTime, DEFAULT_TIME_FORMAT);
+                const start = moment(
+                    data.date + " " + data.startTime,
+                    datetimeFormat
+                );
+                const end = moment(
+                    data.date + " " + data.endTime,
+                    datetimeFormat
+                );
 
                 const interval = moment.range(start, end);
 

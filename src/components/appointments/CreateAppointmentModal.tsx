@@ -2,6 +2,7 @@ import moment from "moment";
 import React, { useEffect } from "react";
 import { VeterinaryInterface } from "@/src/models/Veterinary";
 import Time, {
+    DEFAULT_DATE_FORMAT,
     DEFAULT_TIME_FORMAT,
     PROPER_TIME_FORMAT,
 } from "@/src/models/Time";
@@ -194,6 +195,22 @@ export default function CreateAppointmentModal() {
             alert("Client name is required.");
             return;
         }
+
+        const utcDate = moment(date, DEFAULT_DATE_FORMAT)
+            .utc()
+            .format(DEFAULT_DATE_FORMAT);
+
+        const utcStartTime = moment(date, DEFAULT_TIME_FORMAT)
+            .utc()
+            .format(DEFAULT_TIME_FORMAT);
+
+        const utcEndTime = moment(date, DEFAULT_TIME_FORMAT)
+            .utc()
+            .format(DEFAULT_TIME_FORMAT);
+
+        console.log("utcDate", utcDate);
+        console.log("utcStartTime", utcStartTime);
+        console.log("utcEndTime", utcEndTime);
 
         const newAppointment = {
             id: appointments.length + 1,
