@@ -145,7 +145,14 @@ export default function DayCalendar() {
             }
 
             const onClickClient = () => {
-                dispatch(setSelectedAppointment(appointment));
+                if (
+                    selectedAppointment &&
+                    selectedAppointment.id === appointment.id
+                ) {
+                    dispatch(setSelectedAppointment(null));
+                } else {
+                    dispatch(setSelectedAppointment(appointment));
+                }
             };
 
             const onClickToggleDropdown = () => {
@@ -334,7 +341,7 @@ export default function DayCalendar() {
                 </div>
             );
         },
-        [dispatch, appointments, isDropdownShownBooleans]
+        [dispatch, appointments, isDropdownShownBooleans, selectedAppointment]
     );
 
     useEffect(() => {
