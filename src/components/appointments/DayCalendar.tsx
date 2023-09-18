@@ -381,7 +381,7 @@ export default function DayCalendar() {
         }
 
         setAppointmentCards(scheduleHtmlCards);
-    }, [appointments, date, convertToHtml]);
+    }, [appointments, date, convertToHtml, selectedAppointment]);
 
     const onClickPreviousDate = () => {
         const previousDate = moment(date).subtract(1, "day").toDate();
