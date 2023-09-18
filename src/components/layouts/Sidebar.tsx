@@ -52,8 +52,8 @@ export default function Sidebar() {
                 <div className="flex flex-col h-full py-10">
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -72,8 +72,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -92,8 +92,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -112,8 +112,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -132,8 +132,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -152,8 +152,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -172,8 +172,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
@@ -192,8 +192,8 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/appointments"
-                        className={`relative group flex items-center gap-3 px-8 py-4 transition-all ease hover:bg-neutral-800 ${
-                            sidebarOpen ? "" : "px-10"
+                        className={`relative group flex items-center gap-3 py-4 transition-all ease hover:bg-neutral-800 ${
+                            sidebarOpen ? "px-8" : "px-10"
                         } `}
                     >
                         <span className="[&>svg]:h-4 [&>svg]:w-4">
