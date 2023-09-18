@@ -264,7 +264,10 @@ export default function Search() {
                                         >
                                             <UserIcon
                                                 className={
-                                                    "h-4 w-4 stroke-violet-600"
+                                                    appointment.service ===
+                                                    CONSULTATION_SERVICE
+                                                        ? "stroke-violet-600"
+                                                        : "stroke-orange-400"
                                                 }
                                             />
                                             <div className="text-xs hover:text-purple">

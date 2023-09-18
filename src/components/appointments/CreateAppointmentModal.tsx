@@ -196,21 +196,16 @@ export default function CreateAppointmentModal() {
             return;
         }
 
-        const utcDate = moment(date, DEFAULT_DATE_FORMAT)
+        const utcStartDate = moment(date + " " + startTime)
             .utc()
-            .format(DEFAULT_DATE_FORMAT);
+            .format();
 
-        const utcStartTime = moment(date, DEFAULT_TIME_FORMAT)
+        const utcEndDate = moment(date + " " + endTime)
             .utc()
-            .format(DEFAULT_TIME_FORMAT);
+            .format();
 
-        const utcEndTime = moment(date, DEFAULT_TIME_FORMAT)
-            .utc()
-            .format(DEFAULT_TIME_FORMAT);
-
-        console.log("utcDate", utcDate);
-        console.log("utcStartTime", utcStartTime);
-        console.log("utcEndTime", utcEndTime);
+        console.log("utcStartDate", utcStartDate);
+        console.log("utcEndDate", utcEndDate);
 
         const newAppointment = {
             id: appointments.length + 1,

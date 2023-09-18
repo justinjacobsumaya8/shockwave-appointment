@@ -405,10 +405,10 @@ export default function DayCalendar() {
             <div className="flex">
                 <div className="w-full border-b">
                     <div className="px-8 pt-8 pb-4 border-y">
-                        <div className="text-neutral-400 text-sm mb-2">
+                        <div className="text-neutral-400 text-sm">
                             Appointments
                         </div>
-                        <div className="flex justify-between mt-1.5">
+                        <div className="flex justify-between mt-3">
                             <div>
                                 <div className="flex items-center gap-2">
                                     <h6 className="font-bold text-2xl">
@@ -429,8 +429,8 @@ export default function DayCalendar() {
                                         <RightArrow />
                                     </button>
                                 </div>
-                                <div className="mt-1.5">
-                                    <p className="text-gray-500 text-base">
+                                <div className="mt-3">
+                                    <p className="text-neutral-400 text-sm">
                                         {moment(date).format("YYYY-MM-DD") ===
                                         moment(today).format("YYYY-MM-DD") ? (
                                             <span>Today is</span>

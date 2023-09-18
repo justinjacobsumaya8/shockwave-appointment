@@ -127,17 +127,17 @@ export default function Navbar() {
                             )}
                         </div>
                         <div>
-                            <div className="group bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-primary-300">
+                            <div className="group bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-orange-100">
                                 <NotificationIcon className="h-4 w-4 stroke-gray-700 fill-none group-hover:stroke-primary" />
                             </div>
                         </div>
                         <div>
-                            <div className="group bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-primary-300">
+                            <div className="group bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-orange-100">
                                 <SettingsIcon className="h-4 w-4 fill-gray-700 stroke-none group-hover:fill-primary" />
                             </div>
                         </div>
                         <div>
-                            <div className="group bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-primary-300">
+                            <div className="group bg-gray-100 p-2 rounded-full cursor-pointer hover:bg-orange-100">
                                 <SignoutIcon className="h-4 w-4 fille-gray-700 group-hover:fill-primary" />
                             </div>
                         </div>
